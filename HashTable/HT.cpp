@@ -53,7 +53,7 @@ public:
         return hash;
     }
 
-    int set(std::string key, int value) {
+    void set(std::string key, int value) {
         int index = hash(key);
         Node* newNode = new Node(key, value);
         if (dataMap[index] == nullptr) {
@@ -68,7 +68,21 @@ public:
         }
     }
 
+    int get(std::string key) {
+        int index = hash(key);
+        Node* tmp = dataMap[index];
+        while (tmp != nullptr)
+        {
+            if(tmp->key == key) return tmp->value;
+            tmp = tmp->next;
+        }
+        
+        return 0;
+    }
+
 };
+
+#define SEP std::cout << "-----------------------------------" << std::endl;
 
 int main() {
 
@@ -79,6 +93,8 @@ int main() {
     myHashTable->set("four", 103);
     myHashTable->set("five", 104);
     myHashTable->printTable();
+    SEP
+    std::cout << myHashTable->get("one");
 
     return 0;
 }
