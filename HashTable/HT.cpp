@@ -1,0 +1,84 @@
+#include <iostream>
+
+class Node{
+public:
+    std::string key;
+    int value;
+    Node* next;
+
+    Node(std::string key, int value) {
+        this->key = key;
+        this->value = value;
+        next = nullptr;
+    }
+};
+
+class HashTable{
+private:
+    static const int SIZE = 7;
+    Node* dataMap[SIZE];
+
+public:
+    ~HashTable() {
+        for(int i = 0; i < SIZE; i++) {
+            Node* head = dataMap[i];
+            Node* temp = head;
+            while (head) {
+                head = head->next;
+                delete temp;
+                    temp = head;
+            }
+        }
+    }
+    void printTable() {
+        for(int i = 0; i < SIZE; i++) {
+            std::cout << i << ":" << std::endl;
+            if(dataMap[i]) {
+                Node* temp = dataMap[i];
+                while (temp) {
+                    std::cout << "   {" << temp->key << ", " << temp->value << "}" << std::endl;
+                    temp = temp->next;
+                }
+            }
+        }
+    }
+
+    int hash(std::string key) {
+        int hash = 0;
+        for(int i = 0; i < key.length(); i++) {
+            int asciiValue = int(key[i]);
+            hash = (hash + asciiValue * 23) % SIZE;
+        }
+
+        return hash;
+    }
+
+    int set(std::string key, int value) {
+        int index = hash(key);
+        Node* newNode = new Node(key, value);
+        if (dataMap[index] == nullptr) {
+            dataMap[index] = newNode;
+        } else {
+            Node* tmp = dataMap[index];
+            while (tmp->next != nullptr)
+            {
+                tmp = tmp->next;
+            }
+            tmp->next = newNode;
+        }
+    }
+
+};
+
+int main() {
+
+    HashTable* myHashTable = new HashTable();
+    myHashTable->set("one", 100);
+    myHashTable->set("two", 101);
+    myHashTable->set("three", 102);
+    myHashTable->set("four", 103);
+    myHashTable->set("five", 104);
+    myHashTable->printTable();
+
+    return 0;
+}
