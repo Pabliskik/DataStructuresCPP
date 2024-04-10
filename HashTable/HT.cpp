@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 class Node{
 public:
@@ -80,6 +81,19 @@ public:
         return 0;
     }
 
+    std::vector<std::string> keys() {
+        std::vector<std::string> allKeys;
+        for (int i = 0; i < SIZE; i++) {
+            Node* tmp = dataMap[i];
+            while (tmp != NULL) {
+                allKeys.push_back(tmp->key);
+                tmp = tmp->next;
+            }
+        }
+
+        return allKeys;
+    }
+
 };
 
 #define SEP std::cout << "-----------------------------------" << std::endl;
@@ -94,7 +108,13 @@ int main() {
     myHashTable->set("five", 104);
     myHashTable->printTable();
     SEP
-    std::cout << myHashTable->get("one");
+    std::cout << myHashTable->get("one") << std::endl;
+    SEP
+    std::vector<std::string> myKeys = myHashTable->keys();
+
+    for (std::string key: myKeys) {
+        std::cout << key << std::endl;
+    }
 
     return 0;
 }
