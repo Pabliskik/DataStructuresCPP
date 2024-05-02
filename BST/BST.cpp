@@ -78,9 +78,9 @@ public:
         if (currentNode->value == value) return true;
 
         if (value < currentNode->value) {
-            rContains(currentNode->left, value);
+            return rContains(currentNode->left, value);
         } else {
-            rContains(currentNode->right, value);
+            return rContains(currentNode->right, value);
         }
     }
 
