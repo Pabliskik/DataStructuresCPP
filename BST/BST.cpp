@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 
 class Node {
 public:
@@ -153,6 +154,72 @@ public:
     void deleteNode(int value) {
         root = deleteNode(root, value);
     }
+
+    // Breadth First Search
+    void BFS() {
+        std::queue<Node*> myQueue;
+        myQueue.push(root);
+
+        while(myQueue.size() > 0) {
+            Node* currentNode = myQueue.front();
+            myQueue.pop();
+            std::cout << currentNode->value << " ";
+            if(currentNode->left) {
+                myQueue.push(currentNode->left);
+            }
+            if(currentNode->right) {
+                myQueue.push(currentNode->right);
+            }
+        }
+    }
+
+    // Depth First Search
+    void DFSPreOrder(Node* currentNode) {
+        std::cout << currentNode->value << " ";
+        if(currentNode->left) {
+            DFSPreOrder(currentNode->left);
+        }
+
+        if(currentNode->right) {
+            DFSPreOrder(currentNode->right);
+        }
+    }
+
+    void DFSPreOrder() {
+        DFSPreOrder(root);
+    }
+
+    void DFSPostOrder(Node* currentNode) {
+        if(currentNode->left) {
+            DFSPostOrder(currentNode->left);
+        }
+
+        if(currentNode->right) {
+            DFSPostOrder(currentNode->right);
+        }
+
+        std::cout << currentNode->value << " ";
+    }
+
+    void DFSPostOrder() {
+        DFSPostOrder(root);
+    }
+
+    void DFSInOrder(Node* currentNode) {
+        if(currentNode->left) {
+            DFSInOrder(currentNode->left);
+        }
+
+        std::cout << currentNode->value << " ";
+
+        if(currentNode->right) {
+            DFSInOrder(currentNode->right);
+        }
+    }
+
+    void DFSInOrder() {
+        DFSInOrder(root);
+    }
 };
 
 int main() {
@@ -164,6 +231,7 @@ int main() {
     myBST->insert(30);
     myBST->insert(4);
     myBST->insert(40);
+    myBST->insert(5);
 
     std::cout << myBST->getRoot()->right->right->value << std::endl;
     std::cout << myBST->contains(30) << std::endl;
@@ -172,6 +240,14 @@ int main() {
     std::cout << myBST->minValue(myBST->getRoot()) << std::endl; 
     myBST->deleteNode(2);
     std::cout << myBST->minValue(myBST->getRoot()) << std::endl; 
+
+    myBST->BFS();
+    std::cout << std::endl;
+    myBST->DFSPreOrder();
+    std::cout << std::endl;
+    myBST->DFSPostOrder();
+    std::cout << std::endl;
+    myBST->DFSInOrder();
 
     return 0;
 }
